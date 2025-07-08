@@ -15,8 +15,6 @@
     	<console id="0" display="no"/>
 		<console id="1" display="yes"/>
     </vm_defaults>
-    <cmd-seq seq="load_keys">loadra_key,loadrb_key,loadrc_key,loadrd_key,loadre_key</cmd-seq>
-    <!--vnx_cfg>cisco-ospf.cvnx</vnx_cfg-->
   </global>
 
   <!-- REDES --> 
@@ -51,8 +49,7 @@
       <!-- <ipv4>dhcp</ipv4> -->
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
-      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
-      sed -i -e 's/ospf6d=.*/ospf6d=yes/' /etc/frr/daemons
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
@@ -85,8 +82,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
-      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
-      sed -i -e 's/ospf6d=.*/ospf6d=yes/' /etc/frr/daemons
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
@@ -119,8 +115,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
-      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
-      sed -i -e 's/ospf6d=.*/ospf6d=yes/' /etc/frr/daemons
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
@@ -149,8 +144,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
-      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
-      sed -i -e 's/ospf6d=.*/ospf6d=yes/' /etc/frr/daemons
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
@@ -179,8 +173,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
-      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
-      sed -i -e 's/ospf6d=.*/ospf6d=yes/' /etc/frr/daemons
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
