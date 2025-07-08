@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SCENARIO=frr-ospf-lan.xml
+VERS='01'
+
+# Move to the upper directory where this script is
+cdir=$( dirname $0 )
+cd $cdir/..
+
+if [ "$1" == "-r" ]; then
+    INCLUDEROOTFS="--include-rootfs"
+elif [ ! -z "$2" ]; then
+    echo "--"
+    echo "-- ERROR: unknown option '$2'"
+    echo "--"
+    exit 1
+fi
+
+vnx --pack $SCENARIO \
+    --pack-version $VERS \
+    $INCLUDEROOTFS \
+    --pack-add-files \
+        00-readme.txt \
+        bin 

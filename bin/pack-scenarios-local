@@ -1,0 +1,90 @@
+#!/bin/bash
+
+#
+# Pack scenarios
+#
+
+VERS='07'
+
+# Move to the upper directory where this script is
+cdir=$( dirname $0 )
+cd $cdir
+cd ..
+
+if [[ $# -lt 1 ]]; then
+    echo "--"
+    echo "-- ERROR: incorrect number of parameters"
+    echo "--"
+    echo "-- Usage:"
+    echo "--    pack-scenarios <scenarios-list|'all'> [-r]: packs the scenarios specified in a coma "
+    echo "--                                                separated list or all scenarios."
+    echo "--                                                Use '-r' option to include root filesystems."
+    echo "--"
+    echo "-- Examples:"
+    echo "--    pack-scenarios A,B    -> packs the server and clients A and B scenarios"
+    echo "--    pack-scenarios all -r -> packs all scenarios (server, A, B, etc.) including rootfs"
+    echo "--"
+    exit 1
+fi
+     
+# Recreate all the scenarios files, just in case anything was changed
+#./make-all
+
+if [ "$1" == 'all' ]; then 
+    SCENARIOS=$( ls fw?-ccn.xml | tr '\n' ' ')
+else
+    LIST=$( echo $1 | tr ',' ' ' )
+    for s in $LIST; do
+        if [ ! -f fw${s}-ccn.xml ]; then
+            echo "--"
+            echo "-- ERROR: file 'fw${s}-ccn.xml' does not exist"
+            echo "--"
+            exit 1
+        else
+            SCENARIOS="$SCENARIOS fw${s}-ccn.xml"
+        fi
+    done
+fi
+
+if [ "$2" == "-r" ]; then 
+    INCLUDEROOTFS="--include-rootfs"
+elif [ ! -z "$2" ]; then
+    echo "--"
+    echo "-- ERROR: unknown option '$2'"
+    echo "--"
+    exit 1
+fi 
+
+echo "-- Packaging scenarios: $SCENARIOS"
+
+
+for s in $SCENARIOS; do
+
+    echo "-- Packaging scenario $s...."
+    X=$( echo $s | sed 's/fw\(.*\)-ccn.xml/\1/' )
+    ASCIIX=$( echo -n $X | od -An -tuC )
+    i=$(( $ASCIIX - 64 ))
+    printf -v num '%03d' $i
+
+    # Copy temporarily some files to the root directory
+    cp conf/local-config/LOCAL-CONFIG-${X}.conf LOCAL-CONFIG.conf
+    cp bin/install-lab-sir .
+
+    vnx --pack $s \
+        --pack-add-files \
+            00-readme-client.txt fw${X}-ccn.cvnx install-lab-sir bin tinc/clients-etc/sede${num} LOCAL-CONFIG.conf storage/rc${X}-cisco.img storage/sw${X}-extreme.img \
+        --pack-version $VERS $INCLUDEROOTFS \
+
+#        --pack-excl-files vios-adventerprisek9-m.SPA.156-2.T.qcow2 EXOS-VM_v22.5.1.7.qcow2 \
+
+    # Delete files copied to root directory
+    rm -f LOCAL-CONFIG.conf install-lab-sir
+
+    mv fw${X}-ccn-v${VERS}.tgz distrib
+    echo "--"
+    echo "-- Client scenario package created in: distrib/fw${X}-ccn-v${VERS}.tgz"
+    ls -lh distrib/fw${X}-ccn-v${VERS}.tgz
+    echo "--"
+
+
+done
