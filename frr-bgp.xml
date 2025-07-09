@@ -23,27 +23,32 @@
   <net name="virbr0"  mode="virtual_bridge" managed="no"/>
 
   <net name="NetA"   mode="openvswitch"/>
-  <net name="NetB"   mode="openvswitch"/>
-  <net name="NetC"   mode="openvswitch"/>
-  <net name="NetD"   mode="openvswitch"/>
-  <net name="NetE"   mode="openvswitch"/>
+  <net name="NetI"   mode="openvswitch"/>
   <net name="NetA-B" mode="openvswitch"/>
-  <net name="NetB-C" mode="openvswitch"/>
   <net name="NetA-C" mode="openvswitch"/>
+  <net name="NetB-D" mode="openvswitch"/>
+  <net name="NetB-E" mode="openvswitch"/>
+  <net name="NetB-G" mode="openvswitch"/>
+  <net name="NetC-D" mode="openvswitch"/>
+  <net name="NetE-F" mode="openvswitch"/>
+  <net name="NetE-J" mode="openvswitch"/>
+  <net name="NetG-H" mode="openvswitch"/>
+  <net name="NetG-I" mode="openvswitch"/>
+  <net name="NetG-K" mode="openvswitch"/>
+  <net name="NetJ-K" mode="openvswitch"/>
+  <net name="NetJ-M" mode="openvswitch"/>
+  <net name="NetK-M" mode="openvswitch"/>
 
   <vm name="rA" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetA">
-      <ipv4>10.7.1.1/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66a::1/64</ipv6>
+      <ipv4>10.10.1.2/30</ipv4>
     </if>
     <if id="2" net="NetA-B">
-      <ipv4>10.8.1.1/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a770::1/64</ipv6>
+      <ipv4>10.1.1.1/24</ipv4>
     </if>
     <if id="3" net="NetA-C">
-      <ipv4>10.8.1.2/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a770::2/64</ipv6>
+      <ipv4>10.1.1.8/24</ipv4>
     </if>
     <if id="9" net="virbr0">
       <!-- <ipv4>dhcp</ipv4> -->
@@ -58,25 +63,21 @@
     <exec seq="loadra" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
-    <filetree seq="loadra_key" root="/etc/frr/frr.conf" perms="755">conf/rA/rA_keys</filetree>
-    <exec seq="loadra_key" type="verbatim" ostype="system">
-      systemctl restart frr
-    </exec>
   </vm>
 
   <vm name="rB" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetB">
-      <ipv4>10.7.2.1/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66b::1/64</ipv6>
+    <if id="1" net="NetA-B">
+      <ipv4>10.1.1.2/24</ipv4>
     </if>
-    <if id="2" net="NetA-B">
-      <ipv4>10.8.1.3/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a770::3/64</ipv6>
+    <if id="2" net="NetB-D">
+      <ipv4>10.1.1.3/24</ipv4>
     </if>
-    <if id="3" net="NetB-C">
-      <ipv4>10.8.1.4/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a770::4/64</ipv6>
+    <if id="3" net="NetB-E">
+      <ipv4>192.168.1.1/24</ipv4>
+    </if>
+    <if id="4" net="NetB-G">
+      <ipv4>192.168.1.2/24</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -91,25 +92,15 @@
     <exec seq="loadrb" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
-    <filetree seq="loadrb_key" root="/etc/frr/frr.conf" perms="755">conf/rB/rB_keys</filetree>
-    <exec seq="loadrb_key" type="verbatim" ostype="system">
-      systemctl restart frr
-    </exec>
   </vm>
 
   <vm name="rC" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetC">
-      <ipv4>10.7.3.1/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66c::1/64</ipv6>
+    <if id="1" net="NetA-C">
+      <ipv4>10.1.1.7/24</ipv4>
     </if>
-    <if id="2" net="NetA-C">
-      <ipv4>10.8.1.5/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a770::5/64</ipv6>
-    </if>
-    <if id="3" net="NetB-C">
-      <ipv4>10.8.1.6/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a770::6/64</ipv6>
+    <if id="2" net="NetC-D">
+      <ipv4>10.1.1.6/24</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -124,21 +115,15 @@
     <exec seq="loadrc" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
-    <filetree seq="loadrc_key" root="/etc/frr/frr.conf" perms="755">conf/rC/rC_keys</filetree>
-    <exec seq="loadrc_key" type="verbatim" ostype="system">
-      systemctl restart frr
-    </exec>
   </vm>
 
   <vm name="rD" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetA">
-      <ipv4>10.7.1.2/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66a::2/64</ipv6>
+    <if id="1" net="NetC-D">
+      <ipv4>10.1.1.5/24</ipv4>
     </if>
-    <if id="2" net="NetD">
-      <ipv4>10.7.4.2/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66d::1/64</ipv6>
+    <if id="2" net="NetB-D">
+      <ipv4>10.1.1.4/24</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -153,21 +138,18 @@
     <exec seq="loadrd" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
-    <filetree seq="loadrd_key" root="/etc/frr/frr.conf" perms="755">conf/rD/rD_keys</filetree>
-    <exec seq="loadrd_key" type="verbatim" ostype="system">
-      systemctl restart frr
-    </exec>
   </vm>
 
   <vm name="rE" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetA">
-      <ipv4>10.7.1.3/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66a::3/64</ipv6>
+    <if id="1" net="NetB-E">
+      <ipv4>192.168.1.3/24</ipv4>
     </if>
-    <if id="2" net="NetE">
-      <ipv4>10.7.5.1/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66e::1/64</ipv6>
+    <if id="2" net="NetE-F">
+      <ipv4>10.1.2.2/24</ipv4>
+    </if>
+    <if id="3" net="NetE-J">
+      <ipv4>192.168.1.5/24</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -182,8 +164,171 @@
     <exec seq="loadre" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
-    <filetree seq="loadre_key" root="/etc/frr/frr.conf" perms="755">conf/rE/rE_keys</filetree>
-    <exec seq="loadre_key" type="verbatim" ostype="system">
+  </vm>
+
+  <vm name="rF" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
+    <if id="1" net="NetE-F">
+      <ipv4>10.1.2.1/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+    <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
+      sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      systemctl restart frr
+    </exec>
+    <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rF/rF</filetree>
+    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rF/rF</filetree>
+    <exec seq="loadre" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+  </vm>
+
+  <vm name="rG" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
+    <if id="1" net="NetB-G">
+      <ipv4>192.168.1.4/24</ipv4>
+    </if>
+    <if id="2" net="NetG-H">
+      <ipv4>10.1.3.1/24</ipv4>
+    </if>
+    <if id="3" net="NetG-I">
+      <ipv4>10.1.3.2/24</ipv4>
+    </if>
+    <if id="4" net="NetG-K">
+      <ipv4>192.168.1.6/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+    <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
+      sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      systemctl restart frr
+    </exec>
+    <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rG/rG</filetree>
+    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rG/rG</filetree>
+    <exec seq="loadre" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+  </vm>
+
+  <vm name="rH" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
+    <if id="1" net="NetG-H">
+      <ipv4>10.1.3.3/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+    <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
+      sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      systemctl restart frr
+    </exec>
+    <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rH/rH</filetree>
+    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rH/rH</filetree>
+    <exec seq="loadre" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+  </vm>
+
+  <vm name="rI" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
+    <if id="1" net="NetG-I">
+      <ipv4>10.1.3.4/24</ipv4>
+    </if>
+    <if id="2" net="NetI">
+      <ipv4>10.10.1.6/30</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+    <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
+      sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      systemctl restart frr
+    </exec>
+    <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rI/rI</filetree>
+    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rI/rI</filetree>
+    <exec seq="loadre" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+  </vm>
+
+  <vm name="rJ" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
+    <if id="1" net="NetE-J">
+      <ipv4>192.168.1.7/24</ipv4>
+    </if>
+    <if id="2" net="NetJ-K">
+      <ipv4>192.168.1.9/24</ipv4>
+    </if>
+    <if id="3" net="NetJ-M">
+      <ipv4>172.16.1.1/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+    <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
+      sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      systemctl restart frr
+    </exec>
+    <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rJ/rJ</filetree>
+    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rJ/rJ</filetree>
+    <exec seq="loadre" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+  </vm>
+
+  <vm name="rK" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
+    <if id="1" net="NetG-K">
+      <ipv4>192.168.1.8/24</ipv4>
+    </if>
+    <if id="2" net="NetJ-K">
+      <ipv4>192.168.1.10/24</ipv4>
+    </if>
+    <if id="3" net="NetK-M">
+      <ipv4>172.16.1.4/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+    <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
+      sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      systemctl restart frr
+    </exec>
+    <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rK/rK</filetree>
+    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rK/rK</filetree>
+    <exec seq="loadre" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+  </vm>
+
+  <vm name="rM" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
+    <if id="1" net="NetJ-M">
+      <ipv4>172.16.1.2/24</ipv4>
+    </if>
+    <if id="2" net="NetK-M">
+      <ipv4>172.16.1.3/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+    <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
+      sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      systemctl restart frr
+    </exec>
+    <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rM/rM</filetree>
+    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rM/rM</filetree>
+    <exec seq="loadre" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
   </vm>
@@ -192,11 +337,9 @@
     <on_boot>yes</on_boot>
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetA">
-      <ipv4>10.7.1.10/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66a::10/64</ipv6>
+      <ipv4>10.10.1.1/30</ipv4>
     </if>
-    <route type="ipv4" gw="10.7.1.1">10.0.0.0/8</route>
-    <route type="ipv6" gw="fd80:e42c:3ce3:a66a::1">fd80:e42c:3ce3::/48</route>
+    <route type="ipv4" gw="10.10.1.2">0.0.0.0/0</route>
     <!-- Copiamos /etc/hosts -->
     <filetree seq="on_boot,start" root="/tmp/">conf/hosts/</filetree>
     <!-- Instalamos /etc/hosts -->
@@ -205,66 +348,13 @@
     </exec>
   </vm>
 
-  <vm name="hB" type="lxc" arch="x86_64">
+  <vm name="hI" type="lxc" arch="x86_64">
     <on_boot>yes</on_boot>
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetB">
-      <ipv4>10.7.2.10/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66b::10/64</ipv6>
+    <if id="1" net="NetI">
+      <ipv4>10.10.1.5/30</ipv4>
     </if>
-    <route type="ipv4" gw="10.7.2.1">10.0.0.0/8</route>
-    <route type="ipv6" gw="fd80:e42c:3ce3:a66b::1">fd80:e42c:3ce3::/48</route>
-    <!-- Copiamos /etc/hosts -->
-    <filetree seq="on_boot,start" root="/tmp/">conf/hosts/</filetree>
-    <!-- Instalamos /etc/hosts -->
-    <exec seq="on_boot,start" type="verbatim">
-        cat /tmp/hosts >> /etc/hosts
-    </exec>
-  </vm>
-
-  <vm name="hC" type="lxc" arch="x86_64">
-    <on_boot>yes</on_boot>
-    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetC">
-      <ipv4>10.7.3.10/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66c::10/64</ipv6>
-    </if>
-    <route type="ipv4" gw="10.7.3.1">10.0.0.0/8</route>
-    <route type="ipv6" gw="fd80:e42c:3ce3:a66c::1">fd80:e42c:3ce3::/48</route>
-    <!-- Copiamos /etc/hosts -->
-    <filetree seq="on_boot,start" root="/tmp/">conf/hosts/</filetree>
-    <!-- Instalamos /etc/hosts -->
-    <exec seq="on_boot,start" type="verbatim">
-        cat /tmp/hosts >> /etc/hosts
-    </exec>
-  </vm>
-
-  <vm name="hD" type="lxc" arch="x86_64">
-    <on_boot>yes</on_boot>
-    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetD">
-      <ipv4>10.7.4.10/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66d::10/64</ipv6>
-    </if>
-    <route type="ipv4" gw="10.7.4.2">10.0.0.0/8</route>
-    <route type="ipv6" gw="fd80:e42c:3ce3:a66d::1">fd80:e42c:3ce3::/48</route>
-    <!-- Copiamos /etc/hosts -->
-    <filetree seq="on_boot,start" root="/tmp/">conf/hosts/</filetree>
-    <!-- Instalamos /etc/hosts -->
-    <exec seq="on_boot,start" type="verbatim">
-        cat /tmp/hosts >> /etc/hosts
-    </exec>
-  </vm>
-
-  <vm name="hE" type="lxc" arch="x86_64">
-    <on_boot>yes</on_boot>
-    <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetE">
-      <ipv4>10.7.5.10/24</ipv4>
-      <ipv6>fd80:e42c:3ce3:a66e::10/64</ipv6>
-    </if>
-    <route type="ipv4" gw="10.7.5.1">10.0.0.0/8</route>
-    <route type="ipv6" gw="fd80:e42c:3ce3:a66e::1">fd80:e42c:3ce3::/48</route>
+    <route type="ipv4" gw="10.10.1.6">0.0.0.0/0</route>
     <!-- Copiamos /etc/hosts -->
     <filetree seq="on_boot,start" root="/tmp/">conf/hosts/</filetree>
     <!-- Instalamos /etc/hosts -->
