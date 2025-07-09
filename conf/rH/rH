@@ -1,6 +1,6 @@
 frr version 10.2.1
 frr defaults traditional
-hostname rB
+hostname rH
 log syslog informational
 ip forwarding
 service integrated-vtysh-config
