@@ -35,3 +35,14 @@ https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189r1.ipd.pdf
 
 Instalación routinator:
 https://routinator.docs.nlnetlabs.nl/en/stable/installation.html
+
+
+## Modificar /etc/sysctl.conf para evitar problemas al lancar el escenario
+
+fs.inotify.max_queued_events = 2097152
+fs.inotify.max_user_instances = 2097152
+fs.inotify.max_user_watches = 2097152
+
+Luego ejecuta 
+
+sysctl --system
