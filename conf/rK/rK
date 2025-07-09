@@ -4,3 +4,7 @@ hostname rK
 log syslog informational
 ip forwarding
 service integrated-vtysh-config
+router bgp 64516
+ bgp router-id 2.2.2.2
+exit
+!

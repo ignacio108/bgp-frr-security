@@ -4,5 +4,8 @@ hostname rE
 log syslog informational
 ip forwarding
 service integrated-vtysh-config
-
-
+!
+router bgp 64514
+ bgp router-id 3.3.3.3
+exit
+!
