@@ -45,10 +45,10 @@
       <ipv4>10.10.1.2/30</ipv4>
     </if>
     <if id="2" net="NetA-B">
-      <ipv4>10.1.1.1/24</ipv4>
+      <ipv4>10.1.1.1/30</ipv4>
     </if>
     <if id="3" net="NetA-C">
-      <ipv4>10.1.1.8/24</ipv4>
+      <ipv4>10.1.1.14/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <!-- <ipv4>dhcp</ipv4> -->
@@ -68,16 +68,16 @@
   <vm name="rB" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetA-B">
-      <ipv4>10.1.1.2/24</ipv4>
+      <ipv4>10.1.1.2/30</ipv4>
     </if>
     <if id="2" net="NetB-D">
-      <ipv4>10.1.1.3/24</ipv4>
+      <ipv4>10.1.1.5/30</ipv4>
     </if>
     <if id="3" net="NetB-E">
-      <ipv4>192.168.1.1/24</ipv4>
+      <ipv4>192.168.1.1/30</ipv4>
     </if>
     <if id="4" net="NetB-G">
-      <ipv4>192.168.1.2/24</ipv4>
+      <ipv4>192.168.1.5/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -97,10 +97,10 @@
   <vm name="rC" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetA-C">
-      <ipv4>10.1.1.7/24</ipv4>
+      <ipv4>10.1.1.13/30</ipv4>
     </if>
     <if id="2" net="NetC-D">
-      <ipv4>10.1.1.6/24</ipv4>
+      <ipv4>10.1.1.10/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -119,11 +119,11 @@
 
   <vm name="rD" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetC-D">
-      <ipv4>10.1.1.5/24</ipv4>
+    <if id="1" net="NetB-D">
+      <ipv4>10.1.1.6/30</ipv4>
     </if>
-    <if id="2" net="NetB-D">
-      <ipv4>10.1.1.4/24</ipv4>
+    <if id="2" net="NetC-D">
+      <ipv4>10.1.1.9/30 </ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -143,13 +143,13 @@
   <vm name="rE" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetB-E">
-      <ipv4>192.168.1.3/24</ipv4>
+      <ipv4>192.168.1.2/30</ipv4>
     </if>
     <if id="2" net="NetE-F">
-      <ipv4>10.1.2.2/24</ipv4>
+      <ipv4>10.1.2.2/30</ipv4>
     </if>
     <if id="3" net="NetE-J">
-      <ipv4>192.168.1.5/24</ipv4>
+      <ipv4>192.168.1.9/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -169,7 +169,7 @@
   <vm name="rF" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetE-F">
-      <ipv4>10.1.2.1/24</ipv4>
+      <ipv4>10.1.2.1/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -189,16 +189,16 @@
   <vm name="rG" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetB-G">
-      <ipv4>192.168.1.4/24</ipv4>
+      <ipv4>192.168.1.6/30</ipv4>
     </if>
     <if id="2" net="NetG-H">
-      <ipv4>10.1.3.1/24</ipv4>
+      <ipv4>10.1.3.1/30</ipv4>
     </if>
     <if id="3" net="NetG-I">
-      <ipv4>10.1.3.2/24</ipv4>
+      <ipv4>10.1.3.5/30</ipv4>
     </if>
     <if id="4" net="NetG-K">
-      <ipv4>192.168.1.6/24</ipv4>
+      <ipv4>192.168.1.13/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -218,7 +218,7 @@
   <vm name="rH" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetG-H">
-      <ipv4>10.1.3.3/24</ipv4>
+      <ipv4>10.1.3.2/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -237,11 +237,11 @@
 
   <vm name="rI" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetG-I">
-      <ipv4>10.1.3.4/24</ipv4>
-    </if>
     <if id="2" net="NetI">
       <ipv4>10.10.1.6/30</ipv4>
+    </if>
+    <if id="1" net="NetG-I">
+      <ipv4>10.1.3.6/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -261,13 +261,13 @@
   <vm name="rJ" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetE-J">
-      <ipv4>192.168.1.7/24</ipv4>
+      <ipv4>192.168.1.10/30</ipv4>
     </if>
     <if id="2" net="NetJ-K">
-      <ipv4>192.168.1.9/24</ipv4>
+      <ipv4>192.168.1.17/30</ipv4>
     </if>
     <if id="3" net="NetJ-M">
-      <ipv4>172.16.1.1/24</ipv4>
+      <ipv4>172.16.1.1/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -287,13 +287,13 @@
   <vm name="rK" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetG-K">
-      <ipv4>192.168.1.8/24</ipv4>
+      <ipv4>192.168.1.14/30</ipv4>
     </if>
     <if id="2" net="NetJ-K">
-      <ipv4>192.168.1.10/24</ipv4>
+      <ipv4>192.168.1.18/30</ipv4>
     </if>
     <if id="3" net="NetK-M">
-      <ipv4>172.16.1.4/24</ipv4>
+      <ipv4>172.16.1.5/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
@@ -313,10 +313,10 @@
   <vm name="rM" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetJ-M">
-      <ipv4>172.16.1.2/24</ipv4>
+      <ipv4>172.16.1.2/30</ipv4>
     </if>
     <if id="2" net="NetK-M">
-      <ipv4>172.16.1.3/24</ipv4>
+      <ipv4>172.16.1.6/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
