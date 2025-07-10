@@ -32,8 +32,7 @@
   <net name="NetC-D" mode="openvswitch"/>
   <net name="NetE-F" mode="openvswitch"/>
   <net name="NetE-J" mode="openvswitch"/>
-  <net name="NetG-H" mode="openvswitch"/>
-  <net name="NetG-I" mode="openvswitch"/>
+  <net name="NetG-I-H" mode="openvswitch"/>
   <net name="NetG-K" mode="openvswitch"/>
   <net name="NetJ-K" mode="openvswitch"/>
   <net name="NetJ-M" mode="openvswitch"/>
@@ -54,6 +53,7 @@
       <!-- <ipv4>dhcp</ipv4> -->
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -83,6 +83,8 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
+      sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -106,6 +108,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -129,6 +132,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -155,6 +159,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -174,6 +179,7 @@
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
+    <route type="ipv4" gw="10.1.2.2">default</route>
     <exec seq="on_boot" type="verbatim" ostype="system">
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
@@ -191,19 +197,17 @@
     <if id="1" net="NetB-G">
       <ipv4>192.168.1.6/30</ipv4>
     </if>
-    <if id="2" net="NetG-H">
-      <ipv4>10.1.3.1/30</ipv4>
+    <if id="2" net="NetG-I-H">
+      <ipv4>10.1.3.1/29</ipv4>
     </if>
-    <if id="3" net="NetG-I">
-      <ipv4>10.1.3.5/30</ipv4>
-    </if>
-    <if id="4" net="NetG-K">
+    <if id="3" net="NetG-K">
       <ipv4>192.168.1.13/30</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -217,13 +221,15 @@
 
   <vm name="rH" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="1" net="NetG-H">
-      <ipv4>10.1.3.2/30</ipv4>
+    <if id="1" net="NetG-I-H">
+      <ipv4>10.1.3.2/29</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
+    <route type="ipv4" gw="10.1.3.1">default</route>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -237,16 +243,17 @@
 
   <vm name="rI" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
-    <if id="2" net="NetI">
+    <if id="1" net="NetI">
       <ipv4>10.10.1.6/30</ipv4>
     </if>
-    <if id="1" net="NetG-I">
-      <ipv4>10.1.3.6/30</ipv4>
+    <if id="2" net="NetG-I-H">
+      <ipv4>10.1.3.3/29</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -273,6 +280,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -299,6 +307,7 @@
       <ipv4>dhcp</ipv4>
     </if>
     <exec seq="on_boot" type="verbatim" ostype="system">
+      sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       systemctl restart frr
@@ -339,7 +348,7 @@
     <if id="1" net="NetA">
       <ipv4>10.10.1.1/30</ipv4>
     </if>
-    <route type="ipv4" gw="10.10.1.2">0.0.0.0/0</route>
+    <route type="ipv4" gw="10.10.1.2">default</route>
     <!-- Copiamos /etc/hosts -->
     <filetree seq="on_boot,start" root="/tmp/">conf/hosts/</filetree>
     <!-- Instalamos /etc/hosts -->
@@ -354,7 +363,7 @@
     <if id="1" net="NetI">
       <ipv4>10.10.1.5/30</ipv4>
     </if>
-    <route type="ipv4" gw="10.10.1.6">0.0.0.0/0</route>
+    <route type="ipv4" gw="10.10.1.6">default</route>
     <!-- Copiamos /etc/hosts -->
     <filetree seq="on_boot,start" root="/tmp/">conf/hosts/</filetree>
     <!-- Instalamos /etc/hosts -->
