@@ -4,3 +4,7 @@ hostname rM
 log syslog informational
 ip forwarding
 service integrated-vtysh-config
+router bgp 200
+ bgp router-id 10.10.10.10
+exit
+!

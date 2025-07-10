@@ -6,5 +6,7 @@ ip forwarding
 service integrated-vtysh-config
 router bgp 64516
  bgp router-id 2.2.2.2
+ bgp confederation identifier 100
+ bgp confederation peers 64512 64513 64514 64515 64516 
 exit
 !
