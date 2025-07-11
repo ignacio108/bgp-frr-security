@@ -41,6 +41,12 @@ router bgp 64512
  neighbor 2.2.2.2 update-source lo
  neighbor 3.3.3.3 remote-as 64514
  neighbor 3.3.3.3 update-source lo
+ neighbor 4.4.4.4 remote-as 64513
+ neighbor 4.4.4.4 ebgp-multihop 3
+ neighbor 4.4.4.4 update-source lo
+ neighbor 5.5.5.5 remote-as 64515
+ neighbor 5.5.5.5 ebgp-multihop 3
+ neighbor 5.5.5.5 update-source lo
 exit
 !
 router ospf
@@ -49,5 +55,6 @@ router ospf
  area 0 range 192.168.1.0/24
 exit
 !
+
 
 
