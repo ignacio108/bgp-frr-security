@@ -39,14 +39,15 @@ https://routinator.docs.nlnetlabs.nl/en/stable/installation.html
 
 ## Modificar /etc/sysctl.conf para evitar problemas al lancar el escenario
 
+```bash
 fs.inotify.max_queued_events = 2097152
 fs.inotify.max_user_instances = 2097152
 fs.inotify.max_user_watches = 2097152
-
+```
 Luego ejecuta 
-
+```bash
 sysctl --system
-
+```
 ## IP Addresses:
 Hosts:
 | Host      | Interface    | IPv4            |   Network                              |
