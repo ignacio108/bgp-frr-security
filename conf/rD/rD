@@ -3,6 +3,13 @@ frr defaults traditional
 hostname rD
 log syslog informational
 ip forwarding
+no ipv6 forwarding
 service integrated-vtysh-config
+!
+router eigrp 100
+ network 10.1.1.0/28
+exit
+!
+
 
 

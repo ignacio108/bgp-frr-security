@@ -29,6 +29,10 @@ interface eth4
  no ip ospf passive
 exit
 !
+router eigrp 100
+ network 10.1.1.0/28
+exit
+!
 router bgp 64515
  bgp router-id 5.5.5.5
  bgp confederation identifier 100
