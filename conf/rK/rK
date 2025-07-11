@@ -35,6 +35,7 @@ exit
 !
 router bgp 64516
  bgp router-id 2.2.2.2
+ no bgp ebgp-requires-policy
  bgp confederation identifier 100
  bgp confederation peers 64512 64513 64514 64515 64516
  neighbor 1.1.1.1 remote-as 64512
@@ -47,6 +48,14 @@ router bgp 64516
  neighbor 5.5.5.5 remote-as 64515
  neighbor 5.5.5.5 ebgp-multihop 3
  neighbor 5.5.5.5 update-source lo
+ neighbor 172.16.1.6 remote-as 200
+ !
+ address-family ipv4 unicast
+  redistribute connected
+  redistribute ospf
+  neighbor 172.16.1.6 soft-reconfiguration inbound
+  maximum-paths 2
+ exit-address-family
 exit
 !
 router ospf
