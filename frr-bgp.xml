@@ -79,6 +79,9 @@
     <if id="4" net="NetB-G">
       <ipv4>192.168.1.5/30</ipv4>
     </if>
+    <if id="8" net="lo">
+      <ipv4>5.5.5.5/32</ipv4>
+    </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
@@ -155,6 +158,9 @@
     <if id="3" net="NetE-J">
       <ipv4>192.168.1.9/30</ipv4>
     </if>
+    <if id="8" net="lo">
+      <ipv4>3.3.3.3/32</ipv4>
+    </if>    
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
@@ -203,6 +209,9 @@
     <if id="3" net="NetG-K">
       <ipv4>192.168.1.13/30</ipv4>
     </if>
+    <if id="8" net="lo">
+      <ipv4>4.4.4.4/32</ipv4>
+    </if>    
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
@@ -276,6 +285,9 @@
     <if id="3" net="NetJ-M">
       <ipv4>172.16.1.1/30</ipv4>
     </if>
+    <if id="8" net="lo">
+      <ipv4>1.1.1.1/32</ipv4>
+    </if>     
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
@@ -303,6 +315,9 @@
     <if id="3" net="NetK-M">
       <ipv4>172.16.1.5/30</ipv4>
     </if>
+    <if id="8" net="lo">
+      <ipv4>2.2.2.2/32</ipv4>
+    </if>    
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
