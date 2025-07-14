@@ -49,6 +49,9 @@
     <if id="3" net="NetA-C">
       <ipv4>10.1.1.14/30</ipv4>
     </if>
+    <if id="8" net="lo">
+      <ipv4>5.5.5.6/32</ipv4>
+    </if>
     <if id="9" net="virbr0">
       <!-- <ipv4>dhcp</ipv4> -->
     </if>
@@ -107,6 +110,9 @@
     <if id="2" net="NetC-D">
       <ipv4>10.1.1.10/30</ipv4>
     </if>
+    <if id="8" net="lo">
+      <ipv4>5.5.5.7/32</ipv4>
+    </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
     </if>
@@ -123,13 +129,16 @@
     </exec>
   </vm>
 
-  <vm name="rD" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
+  <vm name="rd" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetB-D">
       <ipv4>10.1.1.6/30</ipv4>
     </if>
     <if id="2" net="NetC-D">
-      <ipv4>10.1.1.9/30 </ipv4>
+      <ipv4>10.1.1.9/30</ipv4>
+    </if>
+    <if id="8" net="lo">
+      <ipv4>5.5.5.8/32</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>
