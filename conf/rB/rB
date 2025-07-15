@@ -40,6 +40,7 @@ exit
 !
 router bgp 64515
  bgp router-id 5.5.5.5
+ no bgp ebgp-requires-policy
  bgp cluster-id 5.5.5.5
  bgp confederation identifier 100
  bgp confederation peers 64512 64513 64514 64515 64516
@@ -55,12 +56,17 @@ router bgp 64515
  neighbor 4.4.4.4 update-source lo
  neighbor 5.5.5.6 remote-as 64515
  neighbor 5.5.5.6 update-source lo
+ neighbor 5.5.5.7 remote-as 64515
+ neighbor 5.5.5.7 update-source lo
  neighbor 5.5.5.8 remote-as 64515
  neighbor 5.5.5.8 update-source lo
  !
  address-family ipv4 unicast
+  redistribute connected
   redistribute ospf
   redistribute eigrp
+  neighbor 5.5.5.6 route-reflector-client
+  neighbor 5.5.5.7 route-reflector-client
   neighbor 5.5.5.8 route-reflector-client
  exit-address-family
 exit
@@ -71,4 +77,6 @@ router ospf
  area 0 range 192.168.1.0/24
 exit
 !
+
+
 

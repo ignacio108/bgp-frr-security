@@ -52,6 +52,10 @@ router bgp 64514
  neighbor 4.4.4.4 update-source lo
  neighbor 5.5.5.5 remote-as 64515
  neighbor 5.5.5.5 update-source lo
+ !
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
 exit
 !
 router ospf
