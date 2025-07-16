@@ -8,10 +8,11 @@ Virtual Lab using VNX( Virtual Networks over linuX) to test the security of BGP,
 
 ## Description 
 
--The scenary if composed of various AS. The AS 100 is confederation of the AS with private numeration. 
+- The scenary if composed of various AS. The AS 100 is confederation of the AS with private numeration. 
 
 
-- TODO ECMP is implemented in the AS 64512 and AS 64516 towards AS 200
+- ECMP is implemented in the AS 64512 and AS 64516 towards AS 200
+
 
 ### IGP of the Autonomous Systems
 Hosts:
