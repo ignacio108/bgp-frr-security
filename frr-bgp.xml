@@ -66,6 +66,10 @@
     <exec seq="loadra" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
+    <filetree seq="loadra_prefix_hijack" root="/etc/frr/frr.conf" perms="755">conf/rA/rA_Prefix_Hijack</filetree>
+    <exec seq="loadra_prefix_hijack" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
   </vm>
 
   <vm name="rB" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">

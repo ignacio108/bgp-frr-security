@@ -40,6 +40,18 @@ Resource Public Key Infrastructure (RPKI) data. It validates the Route Origin At
 
 ### Prefix Hijacking
 
+In order to start the Prefix Hijackin execute:
+
+```bash
+sudo vnx -f frr-bgp.xml -x loadra_prefix_hijack
+```
+
+If you want to go back to the original rA configuration execute:
+
+```bash
+sudo vnx -f frr-bgp.xml -x loadra
+```
+
 ### AS_PATH Forgery
 
 ## Modificar /etc/sysctl.conf para evitar problemas al lancar el escenario
