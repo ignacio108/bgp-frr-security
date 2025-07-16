@@ -5,37 +5,41 @@ Virtual Lab using VNX( Virtual Networks over linuX) to test the security of BGP,
 
 
 ![Topology](img/BGP_Topology_detail.png)
-Temas a implementar (borrador)
 
-ECMP entre los dos AS frontera 
+## Description 
 
-configuración completa de Routinator (ROAs y prefijos).
+-The scenary if composed of various AS. The AS 100 is confederation of the AS with private numeration. 
 
-A Route Origin Authorization (ROA) is a cryptographically signed object that states which Autonomous System (AS) is authorized to originate a particular IP address prefix or set of prefixes.
+
+- TODO ECMP is implemented in the AS 64512 and AS 64516 towards AS 200
+
+### IGP of the Autonomous Systems
+Hosts:
+| AS        | IGP          | Network         |   Description                                            |
+|-----------|--------------|-----------------|----------------------------------------------------------|
+| 64513     | OSPFv2       | 10.1.3.0/29     | Area 1, also contains the connection with hI             |
+| 64514     | Static       | 10.1.2.1/30     | rF directly attached to rE                               |
+| 64515     | EIGRP        | 10.1.1.0/28     | In addition, the IGP Contains the connection with hA     |
+| ALL       | OSPFv2       | 192.168.1.0/24  | Area 0 between all AS of the confederation               |
+
+
+## Attacks 
+
+The malicious router is rA wich form a neigbourd with rB via BGP, in order to perform these Attacks:
+
+However, these attacks might be also performed by AS200
+
+TODO Routinator for ROAs and RPKI
 
 Routinator como RPKI RTR client
 
+A Route Origin Authorization (ROA) is a cryptographically signed object that states which Autonomous System (AS) is authorized to originate a particular IP address prefix or set of prefixes.
+
 Resource Public Key Infrastructure (RPKI) data. It validates the Route Origin Attestations contained in the data and makes them available to your BGP routing workflow.
 
-Configuración de iBGP full mesh para AS 64515 y AS 64513
+### Prefix Hijacking
 
-Confguración ruta estática AS 64514
-
-Realizar los ataques de Prejix Hijack y AS_PATH Forgery desde el router malicioso
-
-Proponer ataques desde el AS 200
-
-Documentación extra:
-
-https://reposit.haw-hamburg.de/bitstream/20.500.12738/17557/1/MA_Implementation%20and%20Evaluation%20of%20BGPsec%20for%20the%20FRRouting%20Suite.pdf
-https://www.rfc-editor.org/rfc/rfc8205
-https://docs.frrouting.org/en/latest/bgp.html#
-https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189r1.ipd.pdf
-
-
-Instalación routinator:
-https://routinator.docs.nlnetlabs.nl/en/stable/installation.html
-
+### AS_PATH Forgery
 
 ## Modificar /etc/sysctl.conf para evitar problemas al lancar el escenario
 
@@ -83,3 +87,15 @@ Hosts:
 | rK        | netK-M       | 172.16.1.5/30   | 172.16.1.4/30                          |
 | rM        | netJ-M       | 172.16.1.2/30   | 172.16.1.0/30                          |
 | rM        | netK-M       | 172.16.1.6/30   | 172.16.1.4/30                          |
+
+
+## Documentation:
+
+https://reposit.haw-hamburg.de/bitstream/20.500.12738/17557/1/MA_Implementation%20and%20Evaluation%20of%20BGPsec%20for%20the%20FRRouting%20Suite.pdf
+https://www.rfc-editor.org/rfc/rfc8205
+https://docs.frrouting.org/en/latest/bgp.html#
+https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189r1.ipd.pdf
+
+
+Routinator Installation guide:
+https://routinator.docs.nlnetlabs.nl/en/stable/installation.html
