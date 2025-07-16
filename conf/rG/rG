@@ -38,7 +38,7 @@ interface eth3
 exit
 !
 interface lo
- ip ospf area 0
+ ip ospf area 1
 exit
 !
 router bgp 64513
@@ -53,8 +53,17 @@ router bgp 64513
  neighbor 3.3.3.3 remote-as 64514
  neighbor 3.3.3.3 ebgp-multihop 3
  neighbor 3.3.3.3 update-source lo
+ neighbor 4.4.4.5 remote-as 64513
+ neighbor 4.4.4.5 update-source lo
+ neighbor 4.4.4.6 remote-as 64513
+ neighbor 4.4.4.6 update-source lo
  neighbor 5.5.5.5 remote-as 64515
  neighbor 5.5.5.5 update-source lo
+ !
+ address-family ipv4 unicast
+  redistribute connected
+  redistribute ospf
+ exit-address-family
 exit
 !
 router ospf

@@ -26,6 +26,22 @@ interface eth2
  no ip ospf passive
 exit
 !
+interface lo
+ ip ospf area 1
+exit
+!
+router bgp 64513
+ bgp router-id 4.4.4.6
+ bgp confederation identifier 100
+ bgp confederation peers 64512 64513 64514 64515 64516
+ neighbor 4.4.4.4 remote-as 64513
+ neighbor 4.4.4.4 update-source lo
+ !
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+exit
+!
 router ospf
  ospf router-id 12.12.12.12
  passive-interface default
