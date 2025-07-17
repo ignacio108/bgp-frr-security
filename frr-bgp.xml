@@ -173,6 +173,9 @@
     </if>
     <if id="8" net="lo">
       <ipv4>3.3.3.3/32</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
     </if>    
     <exec seq="on_boot" type="verbatim" ostype="system">
       sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons

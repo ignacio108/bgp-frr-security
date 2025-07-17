@@ -3,8 +3,7 @@ Virtual Lab using VNX( Virtual Networks over linuX) to test the security of BGP,
 
 ![Topology](img/Topology_BGP_lab.png)
 
-
-![Topology](img/BGP_Topology_detail.png)
+![Topology](img/BGP_Detailed_Topology.png)
 
 ## Description 
 
