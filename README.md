@@ -63,7 +63,7 @@ If you want to go back to the original rA configuration execute:
 
 ```bash
 sudo vnx -f frr-bgp.xml -x loadra
-
+```
 ## Modificar /etc/sysctl.conf para evitar problemas al lancar el escenario
 
 ```bash
