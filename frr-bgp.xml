@@ -70,6 +70,10 @@
     <exec seq="loadra_prefix_hijack" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
+    <filetree seq="loadra_as_path_forgery" root="/etc/frr/frr.conf" perms="755">conf/rA/rA_AS_Path_Forgery</filetree>
+    <exec seq="loadra_as_path_forgery" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
   </vm>
 
   <vm name="rB" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">

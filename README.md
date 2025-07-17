@@ -53,6 +53,17 @@ sudo vnx -f frr-bgp.xml -x loadra
 
 ### AS_PATH Forgery
 
+In order to start the AS_PATH Forgery execute:
+
+```bash
+sudo vnx -f frr-bgp.xml -x loadra_as_path_forgery
+```
+
+If you want to go back to the original rA configuration execute:
+
+```bash
+sudo vnx -f frr-bgp.xml -x loadra
+
 ## Modificar /etc/sysctl.conf para evitar problemas al lancar el escenario
 
 ```bash
