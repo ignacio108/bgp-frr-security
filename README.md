@@ -23,6 +23,122 @@ Hosts:
 | ALL       | OSPFv2       | 192.168.1.0/24  | Area 0 between all AS of the confederation               |
 
 
+## Set up of the scenary
+
+You will need to modify the image that vnx uses:
+
+username:root
+password:xxxx
+
+```bash
+sudo vnx --modify-rootfs filesystems/vnx_rootfs_lxc_ubuntu64-22.04-v025-fw/
+```
+After entering in the virtualized system you will need to install routinator and a frr dependency for rpki
+
+```bash
+sudo vnx --modify-rootfs filesystems/vnx_rootfs_lxc_ubuntu64-22.04-v025-fw/
+
+sudo apt install \
+  ca-certificates \
+  curl \
+  gnupg \
+  lsb-release
+
+curl -fsSL https://packages.nlnetlabs.nl/aptkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/nlnetlabs-archive-keyring.gpg
+
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/debian \
+$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/nlnetlabs.list > /dev/null
+
+sudo apt update
+
+sudo apt install routinator
+```
+You must install frr-rpki-rtrlib additional package for RPKI support, otherwise bgpd daemon won’t startup.
+
+```bash
+sudo apt-get update
+sudo apt-get install frr-rpki-rtrlib
+```
+After making the changes in the imagese execute the next command to save the changes:
+
+```bash
+halt
+```
+
+### Starting the scenary
+
+```bash
+sudo vnx -f frr-bgp.xml -v -t
+```
+
+Enter in the rM host and create an copy the files on routinator directory into the machine
+You will need to create the directories:
+
+/rpkidata
+    /routinator.conf
+    /slurm/myroas.json
+
+After that you need to initialize the routinator service:
+
+```bash
+nohup routinator -c /root/rpkidata/routinator.conf server > /var/log/routinator.log 2>&1 &
+```
+
+If you want to check the service:
+
+```bash
+ss -tuln | grep 3323
+```
+
+IMPORTANT:
+
+If you load the rpki configuration you would probably have problems with the connection with the rpki server.
+
+Restart the networking service in rM
+
+```bash
+systemctl restart networking
+```
+And also you can restart the rpki connection with this command in frr in the routers that have an rpki connection: rE, rB, rJ, rG, rK
+
+```bash
+rpki restart
+```
+
+These commands will help you to check everything is working correctly:
+
+```bash
+show rpki prefix-table
+show rpki cache-connection 
+```
+### Loading configuration
+
+The routers have many possible configuration:
+
+This confguration load the starting configuration for all routers:
+```bash
+sudo vnx -f frr-bgp.xml -x load_intial_conf
+```
+The configuration for rpki can be loaded with these commands:
+```bash
+sudo vnx -f frr-bgp.xml -x load_rpki
+```
+
+If you want to try the attack from rA load them with these commands:
+
+```bash
+sudo vnx -f frr-bgp.xml -x loadra_prefix_hijack
+```
+```bash
+sudo vnx -f frr-bgp.xml -x loadra_as_path_forgery
+```
+
+If you want to go back to the initial configuration of rA:
+```bash
+sudo vnx -f frr-bgp.xml -x loadra
+```
+
 ## Attacks 
 
 The malicious router is rA wich form a neigbourd with rB via BGP, in order to perform these Attacks:
@@ -128,50 +244,8 @@ RFC 8416 : Simplified Local Internet Number Resource Management with the RPKI (S
 https://www.rfc-editor.org/rfc/rfc8416.html
 
 
-TODO
-
-Crear directorios en rM al crear el escenario
-
-/rpkidata
-    /routinator.conf
-    /slurm/myroas.json
-
-TODO 
-Cambiar la imgen de VNX  
-
-username:root
-password:xxxx
-
-```bash
-sudo vnx --modify-rootfs filesystems/vnx_rootfs_lxc_ubuntu64-22.04-v025-fw/
-
-sudo apt install \
-  ca-certificates \
-  curl \
-  gnupg \
-  lsb-release
-
-
-curl -fsSL https://packages.nlnetlabs.nl/aptkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/nlnetlabs-archive-keyring.gpg
-
-echo \
-"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/debian \
-$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/nlnetlabs.list > /dev/null
 
 
 
-sudo apt update
 
-sudo apt install routinator
-```
-You must install frr-rpki-rtrlib additional package for RPKI support, otherwise bgpd daemon won’t startup.
 
-```bash
-sudo apt-get update
-sudo apt-get install frr-rpki-rtrlib
-```
-After making the changes in the imagese execute the next command to save the changes:
-
-```bash
-halt
-```
