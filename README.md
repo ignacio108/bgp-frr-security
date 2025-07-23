@@ -72,14 +72,7 @@ halt
 sudo vnx -f frr-bgp.xml -v -t
 ```
 
-Enter in the rM host and create an copy the files on routinator directory into the machine
-You will need to create the directories:
-
-/rpkidata
-    /routinator.conf
-    /slurm/myroas.json
-
-After that you need to initialize the routinator service:
+In order to initialize the routinator service:
 
 ```bash
 nohup routinator -c /root/rpkidata/routinator.conf server > /var/log/routinator.log 2>&1 &
@@ -125,29 +118,12 @@ The configuration for rpki can be loaded with these commands:
 sudo vnx -f frr-bgp.xml -x load_rpki
 ```
 
-If you want to try the attack from rA load them with these commands:
-
-```bash
-sudo vnx -f frr-bgp.xml -x loadra_prefix_hijack
-```
-```bash
-sudo vnx -f frr-bgp.xml -x loadra_as_path_forgery
-```
-
-If you want to go back to the initial configuration of rA:
-```bash
-sudo vnx -f frr-bgp.xml -x loadra
-```
 
 ## Attacks 
 
 The malicious router is rA wich form a neigbourd with rB via BGP, in order to perform these Attacks:
 
 However, these attacks might be also performed by AS200
-
-TODO Routinator for ROAs and RPKI
-
-Routinator como RPKI RTR client
 
 A Route Origin Authorization (ROA) is a cryptographically signed object that states which Autonomous System (AS) is authorized to originate a particular IP address prefix or set of prefixes.
 

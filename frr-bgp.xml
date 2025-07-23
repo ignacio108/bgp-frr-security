@@ -115,6 +115,7 @@
     <filetree seq="loadrb_rpki" root="/etc/frr/frr.conf" perms="755">conf/rB/rB_rpki</filetree>
     <exec seq="loadrb_rpki" type="verbatim" ostype="system">
       systemctl restart frr
+    </exec>
   </vm>
 
   <vm name="rC" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
@@ -262,6 +263,7 @@
     <filetree seq="loadrg_rpki" root="/etc/frr/frr.conf" perms="755">conf/rG/rG_rpki</filetree>
     <exec seq="loadrg_rpki" type="verbatim" ostype="system">
       systemctl restart frr
+    </exec>
   </vm>
 
   <vm name="rH" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
@@ -386,6 +388,7 @@
     <filetree seq="loadrk_rpki" root="/etc/frr/frr.conf" perms="755">conf/rK/rK_rpki</filetree>
     <exec seq="loadrk_rpki" type="verbatim" ostype="system">
       systemctl restart frr
+    </exec>
   </vm>
 
   <vm name="rM" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
@@ -406,6 +409,8 @@
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rM/rM</filetree>
+    <filetree seq="on_boot,start" root="/rpkidata/">conf/routinator/routinator.conf</filetree>
+    <filetree seq="on_boot,start" root="/rpkidata/slurm/">conf/routinator/myroas.json</filetree>
     <filetree seq="loadrm" root="/etc/frr/frr.conf" perms="755">conf/rM/rM</filetree>
     <exec seq="loadrm" type="verbatim" ostype="system">
       systemctl restart frr
