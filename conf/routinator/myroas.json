@@ -1,0 +1,24 @@
+{
+    "slurmVersion": 1,
+    "validationOutputFilters": {
+      "prefixFilters": [],
+      "bgpsecFilters": []
+    },
+    "locallyAddedAssertions": {
+      "prefixAssertions": [
+        {
+          "asn": 200,
+          "prefix": "172.16.1.0/30",
+          "maxPrefixLength": 30,
+          "comment": "AS 200 route"
+        },
+        {
+          "asn": 200,
+          "prefix": "172.16.1.4/30",
+          "maxPrefixLength": 30,
+          "comment": "AS 200 route"
+        }
+      ],
+      "bgpsecAssertions":[]
+    }
+}

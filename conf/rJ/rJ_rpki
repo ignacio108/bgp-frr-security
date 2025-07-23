@@ -1,0 +1,88 @@
+frr version 10.2.1
+frr defaults traditional
+hostname rJ
+log syslog informational
+ip forwarding
+no ipv6 forwarding
+service integrated-vtysh-config
+!
+ip prefix-list FROM-AS200-PREFIXES seq 5 permit 172.16.1.0/30 le 30
+ip prefix-list FROM-AS200-PREFIXES seq 10 permit 172.16.1.4/30 le 30
+!
+route-map SET_MED permit 10
+ set metric 20
+exit
+!
+route-map ADD-AS200 permit 10
+ match ip address prefix-list FROM-AS200-PREFIXES
+ set as-path prepend 200
+exit
+!
+key chain 1
+ key 1
+  cryptographic-algorithm hmac-sha-256
+  key-string clave
+ exit
+exit
+!
+interface eth1
+ description NetE-J
+ ip ospf area 0
+ ip ospf authentication key-chain 1
+ ip ospf network point-to-point
+ no ip ospf passive
+exit
+!
+interface eth2
+ description NetJ-K
+ ip ospf area 0
+ ip ospf authentication key-chain 1
+ ip ospf network point-to-point
+ no ip ospf passive
+exit
+!
+interface lo
+ ip ospf area 0
+exit
+!
+router bgp 64512
+ bgp router-id 1.1.1.1
+ no bgp ebgp-requires-policy
+ bgp confederation identifier 100
+ bgp confederation peers 64512 64513 64514 64515 64516
+ neighbor 2.2.2.2 remote-as 64516
+ neighbor 2.2.2.2 update-source lo
+ neighbor 3.3.3.3 remote-as 64514
+ neighbor 3.3.3.3 update-source lo
+ neighbor 4.4.4.4 remote-as 64513
+ neighbor 4.4.4.4 ebgp-multihop 3
+ neighbor 4.4.4.4 update-source lo
+ neighbor 5.5.5.5 remote-as 64515
+ neighbor 5.5.5.5 ebgp-multihop 3
+ neighbor 5.5.5.5 update-source lo
+ neighbor 172.16.1.2 remote-as 200
+ !
+ address-family ipv4 unicast
+  redistribute connected
+  redistribute ospf
+  neighbor 3.3.3.3 route-map ADD-AS200 out
+  neighbor 4.4.4.4 route-map ADD-AS200 out
+  neighbor 5.5.5.5 route-map ADD-AS200 out
+  neighbor 172.16.1.2 soft-reconfiguration inbound
+  neighbor 172.16.1.2 route-map SET_MED out
+  maximum-paths 2
+ exit-address-family
+exit
+!
+router ospf
+ ospf router-id 1.1.1.1
+ passive-interface default
+ area 0 range 192.168.1.0/24
+exit
+!
+rpki
+ rpki cache tcp 172.16.1.2 3323 preference 200
+ rpki cache tcp 172.16.1.6 3323 preference 190
+exit
+!
+

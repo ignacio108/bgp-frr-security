@@ -15,6 +15,8 @@
     	<console id="0" display="no"/>
 		<console id="1" display="yes"/>
     </vm_defaults>
+    <cmd-seq seq="load_intial_conf">loadra,loadrb,loadrc,loadrd,loadre,loadrf,loadrg,loadrh,loadri,loadrj,loadrk,loadrm</cmd-seq>
+    <cmd-seq seq="load_rpki">loadrb_rpki,loadre_rpki,loadrg_rpki,loadrj_rpki,loadrk_rpki</cmd-seq>
   </global>
 
   <!-- REDES --> 
@@ -59,6 +61,7 @@
       sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rA/rA</filetree>
@@ -101,6 +104,7 @@
       sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rB/rB</filetree>
@@ -108,6 +112,9 @@
     <exec seq="loadrb" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
+    <filetree seq="loadrb_rpki" root="/etc/frr/frr.conf" perms="755">conf/rB/rB_rpki</filetree>
+    <exec seq="loadrb_rpki" type="verbatim" ostype="system">
+      systemctl restart frr
   </vm>
 
   <vm name="rC" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
@@ -128,6 +135,7 @@
       sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rC/rC</filetree>
@@ -155,6 +163,7 @@
       sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rD/rD</filetree>
@@ -185,11 +194,16 @@
       sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rE/rE</filetree>
     <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rE/rE</filetree>
     <exec seq="loadre" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+    <filetree seq="loadre_rpki" root="/etc/frr/frr.conf" perms="755">conf/rE/rE_rpki</filetree>
+    <exec seq="loadre_rpki" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
   </vm>
@@ -206,11 +220,12 @@
     <exec seq="on_boot" type="verbatim" ostype="system">
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rF/rF</filetree>
-    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rF/rF</filetree>
-    <exec seq="loadre" type="verbatim" ostype="system">
+    <filetree seq="loadrf" root="/etc/frr/frr.conf" perms="755">conf/rF/rF</filetree>
+    <exec seq="loadrf" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
   </vm>
@@ -236,13 +251,17 @@
       sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rG/rG</filetree>
-    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rG/rG</filetree>
-    <exec seq="loadre" type="verbatim" ostype="system">
+    <filetree seq="loadrg" root="/etc/frr/frr.conf" perms="755">conf/rG/rG</filetree>
+    <exec seq="loadrg" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
+    <filetree seq="loadrg_rpki" root="/etc/frr/frr.conf" perms="755">conf/rG/rG_rpki</filetree>
+    <exec seq="loadrg_rpki" type="verbatim" ostype="system">
+      systemctl restart frr
   </vm>
 
   <vm name="rH" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
@@ -261,11 +280,12 @@
       sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rH/rH</filetree>
-    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rH/rH</filetree>
-    <exec seq="loadre" type="verbatim" ostype="system">
+    <filetree seq="loadrh" root="/etc/frr/frr.conf" perms="755">conf/rH/rH</filetree>
+    <exec seq="loadrh" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
   </vm>
@@ -289,11 +309,12 @@
       sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rI/rI</filetree>
-    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rI/rI</filetree>
-    <exec seq="loadre" type="verbatim" ostype="system">
+    <filetree seq="loadri" root="/etc/frr/frr.conf" perms="755">conf/rI/rI</filetree>
+    <exec seq="loadri" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
   </vm>
@@ -319,11 +340,16 @@
       sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rJ/rJ</filetree>
-    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rJ/rJ</filetree>
-    <exec seq="loadre" type="verbatim" ostype="system">
+    <filetree seq="loadrj" root="/etc/frr/frr.conf" perms="755">conf/rJ/rJ</filetree>
+    <exec seq="loadrj" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+    <filetree seq="loadrj_rpki" root="/etc/frr/frr.conf" perms="755">conf/rJ/rJ_rpki</filetree>
+    <exec seq="loadrj_rpki" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
   </vm>
@@ -349,13 +375,17 @@
       sed -i -e 's/ospfd=.*/ospfd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rK/rK</filetree>
-    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rK/rK</filetree>
-    <exec seq="loadre" type="verbatim" ostype="system">
+    <filetree seq="loadrk" root="/etc/frr/frr.conf" perms="755">conf/rK/rK</filetree>
+    <exec seq="loadrk" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
+    <filetree seq="loadrk_rpki" root="/etc/frr/frr.conf" perms="755">conf/rK/rK_rpki</filetree>
+    <exec seq="loadrk_rpki" type="verbatim" ostype="system">
+      systemctl restart frr
   </vm>
 
   <vm name="rM" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
@@ -372,11 +402,12 @@
     <exec seq="on_boot" type="verbatim" ostype="system">
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
+      sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rM/rM</filetree>
-    <filetree seq="loadre" root="/etc/frr/frr.conf" perms="755">conf/rM/rM</filetree>
-    <exec seq="loadre" type="verbatim" ostype="system">
+    <filetree seq="loadrm" root="/etc/frr/frr.conf" perms="755">conf/rM/rM</filetree>
+    <exec seq="loadrm" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
   </vm>

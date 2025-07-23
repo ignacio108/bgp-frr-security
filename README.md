@@ -122,3 +122,56 @@ https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189r1.ipd.pdf
 
 Routinator Installation guide:
 https://routinator.docs.nlnetlabs.nl/en/stable/installation.html
+
+
+RFC 8416 : Simplified Local Internet Number Resource Management with the RPKI (SLURM)                         
+https://www.rfc-editor.org/rfc/rfc8416.html
+
+
+TODO
+
+Crear directorios en rM al crear el escenario
+
+/rpkidata
+    /routinator.conf
+    /slurm/myroas.json
+
+TODO 
+Cambiar la imgen de VNX  
+
+username:root
+password:xxxx
+
+```bash
+sudo vnx --modify-rootfs filesystems/vnx_rootfs_lxc_ubuntu64-22.04-v025-fw/
+
+sudo apt install \
+  ca-certificates \
+  curl \
+  gnupg \
+  lsb-release
+
+
+curl -fsSL https://packages.nlnetlabs.nl/aptkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/nlnetlabs-archive-keyring.gpg
+
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/debian \
+$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/nlnetlabs.list > /dev/null
+
+
+
+sudo apt update
+
+sudo apt install routinator
+```
+You must install frr-rpki-rtrlib additional package for RPKI support, otherwise bgpd daemon won’t startup.
+
+```bash
+sudo apt-get update
+sudo apt-get install frr-rpki-rtrlib
+```
+After making the changes in the imagese execute the next command to save the changes:
+
+```bash
+halt
+```

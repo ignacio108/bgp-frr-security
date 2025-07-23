@@ -1,0 +1,92 @@
+frr version 10.2.1
+frr defaults traditional
+hostname rE
+log syslog informational
+ip forwarding
+no ipv6 forwarding
+service integrated-vtysh-config
+!
+ip prefix-list RPKI-FILTER seq 5 permit 172.16.1.0/30
+ip prefix-list RPKI-FILTER seq 10 permit 172.16.1.4/30
+!
+route-map RPKI-FILTER deny 10
+ match ip address prefix-list RPKI-FILTER
+ match rpki invalid
+exit
+!
+route-map RPKI-FILTER permit 20
+ match ip address prefix-list RPKI-FILTER
+ match rpki valid
+exit
+!
+route-map RPKI-FILTER permit 30
+exit
+!
+key chain 1
+ key 1
+  cryptographic-algorithm hmac-sha-256
+  key-string clave
+ exit
+exit
+!
+interface eth1
+ description NetB-E
+ ip ospf area 0
+ ip ospf authentication key-chain 1
+ ip ospf network point-to-point
+ no ip ospf passive
+exit
+!
+interface eth2
+ description NetF
+ ip ospf area 0
+exit
+!
+interface eth3
+ description NetE-J
+ ip ospf area 0
+ ip ospf authentication key-chain 1
+ ip ospf network point-to-point
+ no ip ospf passive
+exit
+!
+interface lo
+ ip ospf area 0
+exit
+!
+router bgp 64514
+ bgp router-id 3.3.3.3
+ bgp confederation identifier 100
+ bgp confederation peers 64512 64513 64514 64515 64516
+ neighbor 1.1.1.1 remote-as 64512
+ neighbor 1.1.1.1 update-source lo
+ neighbor 2.2.2.2 remote-as 64516
+ neighbor 2.2.2.2 ebgp-multihop 3
+ neighbor 2.2.2.2 update-source lo
+ neighbor 4.4.4.4 remote-as 64513
+ neighbor 4.4.4.4 ebgp-multihop 3
+ neighbor 4.4.4.4 update-source lo
+ neighbor 5.5.5.5 remote-as 64515
+ neighbor 5.5.5.5 update-source lo
+ !
+ address-family ipv4 unicast
+  redistribute connected
+  neighbor 1.1.1.1 route-map RPKI-FILTER in
+  neighbor 2.2.2.2 route-map RPKI-FILTER in
+  neighbor 4.4.4.4 route-map RPKI-FILTER in
+  neighbor 5.5.5.5 route-map RPKI-FILTER in
+ exit-address-family
+exit
+!
+router ospf
+ ospf router-id 3.3.3.3
+ passive-interface default
+ area 0 range 192.168.1.0/24
+exit
+!
+rpki
+ rpki cache tcp 172.16.1.2 3323 preference 200
+ rpki cache tcp 172.16.1.6 3323 preference 190
+exit
+!
+
