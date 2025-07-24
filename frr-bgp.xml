@@ -409,8 +409,8 @@
       systemctl restart frr
     </exec>
     <filetree seq="on_boot,start" root="/etc/frr/frr.conf">conf/rM/rM</filetree>
-    <filetree seq="on_boot,start" root="/rpkidata/">conf/routinator/routinator.conf</filetree>
-    <filetree seq="on_boot,start" root="/rpkidata/slurm/">conf/routinator/myroas.json</filetree>
+    <filetree seq="on_boot,start" root="/root/rpkidata/">conf/routinator/routinator.conf</filetree>
+    <filetree seq="on_boot,start" root="/root/rpkidata/slurm/">conf/routinator/myroas.json</filetree>
     <filetree seq="loadrm" root="/etc/frr/frr.conf" perms="755">conf/rM/rM</filetree>
     <exec seq="loadrm" type="verbatim" ostype="system">
       systemctl restart frr

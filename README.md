@@ -7,7 +7,7 @@ Virtual Lab using VNX( Virtual Networks over linuX) to test the security of BGP,
 
 ## Description 
 
-- The scenary if composed of various AS. The AS 100 is confederation of the AS with private numeration. 
+- The virtual lab if composed of various AS. The AS 100 is confederation of the AS with private numeration. 
 
 
 - ECMP is implemented in the AS 64512 and AS 64516 towards AS 200
@@ -23,7 +23,21 @@ Hosts:
 | ALL       | OSPFv2       | 192.168.1.0/24  | Area 0 between all AS of the confederation               |
 
 
-## Set up of the scenary
+## Set up of the virtual lab
+
+### Change /etc/sysctl.conf to avoid issues during the start up of the virtual lab 
+
+```bash
+fs.inotify.max_queued_events = 2097152
+fs.inotify.max_user_instances = 2097152
+fs.inotify.max_user_watches = 2097152
+```
+Luego ejecuta 
+```bash
+sysctl --system
+```
+
+### VNX set up
 
 You will need to modify the image that vnx uses:
 
@@ -66,7 +80,7 @@ After making the changes in the imagese execute the next command to save the cha
 halt
 ```
 
-### Starting the scenary
+### Starting the virtual lab
 
 ```bash
 sudo vnx -f frr-bgp.xml -v -t
@@ -131,6 +145,12 @@ Resource Public Key Infrastructure (RPKI) data. It validates the Route Origin At
 
 ### Prefix Hijacking
 
+Occurs when a malicious BGP speaker falsely announces IP prefixes that it does not own or originate. This can redirect traffic through the attacker's network, enabling traffic interception or blackholing.
+
+In this laboratory the attack will be performed by rA. 
+
+This attack will be mitigated by implementing an rpki server in rM and using this rpki connection routers in the confederence will avoid being exploited. However, rC and rD do not have rpki implemented.
+
 In order to start the Prefix Hijackin execute:
 
 ```bash
@@ -145,6 +165,11 @@ sudo vnx -f frr-bgp.xml -x loadra
 
 ### AS_PATH Forgery
 
+Involves manipulating the AS_PATH attribute in BGP announcements by injecting fake AS numbers to make the route appear legitimate. This bypasses basic loop detection and can mislead routers into preferring malicious routes.
+
+Currently this attack cannot be mitigated. In order to avoid this exploit. BGPsec must be implemented to validate the AS_PATH using PKI (Public Key Infrastructure). Currently frr does not implement BGPsec
+
+
 In order to start the AS_PATH Forgery execute:
 
 ```bash
@@ -156,17 +181,7 @@ If you want to go back to the original rA configuration execute:
 ```bash
 sudo vnx -f frr-bgp.xml -x loadra
 ```
-## Modificar /etc/sysctl.conf para evitar problemas al lancar el escenario
 
-```bash
-fs.inotify.max_queued_events = 2097152
-fs.inotify.max_user_instances = 2097152
-fs.inotify.max_user_watches = 2097152
-```
-Luego ejecuta 
-```bash
-sysctl --system
-```
 ## IP Addresses:
 Hosts:
 | Host      | Interface    | IPv4            |   Network                              |
@@ -206,11 +221,6 @@ Hosts:
 
 ## Documentation:
 
-https://reposit.haw-hamburg.de/bitstream/20.500.12738/17557/1/MA_Implementation%20and%20Evaluation%20of%20BGPsec%20for%20the%20FRRouting%20Suite.pdf
-https://www.rfc-editor.org/rfc/rfc8205
-https://docs.frrouting.org/en/latest/bgp.html#
-https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189r1.ipd.pdf
-
 
 Routinator Installation guide:
 https://routinator.docs.nlnetlabs.nl/en/stable/installation.html
@@ -220,8 +230,16 @@ RFC 8416 : Simplified Local Internet Number Resource Management with the RPKI (S
 https://www.rfc-editor.org/rfc/rfc8416.html
 
 
+BGP Hijacking real case:
 
+https://www.certik.com/resources/blog/bgp-hijacking-how-hackers-circumvent-internet-routing-security-to-tear-the
 
+Others:
+
+https://reposit.haw-hamburg.de/bitstream/20.500.12738/17557/1/MA_Implementation%20and%20Evaluation%20of%20BGPsec%20for%20the%20FRRouting%20Suite.pdf
+https://www.rfc-editor.org/rfc/rfc8205
+https://docs.frrouting.org/en/latest/bgp.html#
+https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189r1.ipd.pdf
 
 
 
