@@ -32,7 +32,7 @@ fs.inotify.max_queued_events = 2097152
 fs.inotify.max_user_instances = 2097152
 fs.inotify.max_user_watches = 2097152
 ```
-Luego ejecuta 
+After that execute:
 ```bash
 sysctl --system
 ```
