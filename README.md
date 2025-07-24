@@ -137,8 +137,6 @@ sudo vnx -f frr-bgp.xml -x load_rpki
 
 The malicious router is rA wich form a neigbourd with rB via BGP, in order to perform these Attacks:
 
-However, these attacks might be also performed by AS200
-
 A Route Origin Authorization (ROA) is a cryptographically signed object that states which Autonomous System (AS) is authorized to originate a particular IP address prefix or set of prefixes.
 
 Resource Public Key Infrastructure (RPKI) data. It validates the Route Origin Attestations contained in the data and makes them available to your BGP routing workflow.
