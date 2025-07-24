@@ -147,7 +147,7 @@ Occurs when a malicious BGP speaker falsely announces IP prefixes that it does n
 
 In this laboratory the attack will be performed by rA. 
 
-This attack will be mitigated by implementing an rpki server in rM and using this rpki connection routers in the confederence will avoid being exploited. However, rC and rD do not have rpki implemented.
+This attack will be mitigated by implementing an rpki server in rM and using this rpki connection routers in the confederence will be protected against this attack.
 
 In order to start the Prefix Hijackin execute:
 
