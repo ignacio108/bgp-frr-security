@@ -57,10 +57,10 @@ exit
 router bgp 64514
  bgp router-id 3.3.3.3
  bgp confederation identifier 100
- bgp confederation peers 64512 64513 64514 64515 64516
+ bgp confederation peers 64512 64513 64514 64515
  neighbor 1.1.1.1 remote-as 64512
  neighbor 1.1.1.1 update-source lo
- neighbor 2.2.2.2 remote-as 64516
+ neighbor 2.2.2.2 remote-as 64512
  neighbor 2.2.2.2 ebgp-multihop 3
  neighbor 2.2.2.2 update-source lo
  neighbor 4.4.4.4 remote-as 64513

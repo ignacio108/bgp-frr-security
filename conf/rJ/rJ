@@ -37,8 +37,8 @@ router bgp 64512
  bgp router-id 1.1.1.1
  no bgp ebgp-requires-policy
  bgp confederation identifier 100
- bgp confederation peers 64512 64513 64514 64515 64516
- neighbor 2.2.2.2 remote-as 64516
+ bgp confederation peers 64512 64513 64514 64515 
+ neighbor 2.2.2.2 remote-as 64512
  neighbor 2.2.2.2 update-source lo
  neighbor 3.3.3.3 remote-as 64514
  neighbor 3.3.3.3 update-source lo
