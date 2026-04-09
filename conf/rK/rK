@@ -1,10 +1,21 @@
-frr version 10.2.1
+frr version 10.6.0
 frr defaults traditional
 hostname rK
 log syslog informational
-ip forwarding
 no ipv6 forwarding
 service integrated-vtysh-config
+!
+ip prefix-list OSPF_TO_BGP seq 10 permit 192.168.1.0/24
+!
+route-map OSPF_TO_BGP permit 10
+ match ip address prefix-list OSPF_TO_BGP
+ set community 100:20
+ set metric 20
+exit
+!
+route-map SET_MED permit 10
+ set metric 20
+exit
 !
 key chain 1
  key 1
@@ -37,7 +48,7 @@ router bgp 64512
  bgp router-id 2.2.2.2
  no bgp ebgp-requires-policy
  bgp confederation identifier 100
- bgp confederation peers 64512 64513 64514 64515 
+ bgp confederation peers 64513 64514 64515
  neighbor 1.1.1.1 remote-as 64512
  neighbor 1.1.1.1 update-source lo
  neighbor 3.3.3.3 remote-as 64514
@@ -52,10 +63,12 @@ router bgp 64512
  !
  address-family ipv4 unicast
   redistribute connected
-  redistribute ospf
+  redistribute ospf route-map OSPF_TO_BGP
+  neighbor 1.1.1.1 next-hop-self
   neighbor 172.16.1.6 soft-reconfiguration inbound
   neighbor 172.16.1.6 route-map SET_MED out
   maximum-paths 2
+  maximum-paths ibgp 2
  exit-address-family
 exit
 !
@@ -63,9 +76,5 @@ router ospf
  ospf router-id 2.2.2.2
  passive-interface default
  area 0 range 192.168.1.0/24
-exit
-!
-route-map SET_MED permit 10
- set metric 20
 exit
 !
