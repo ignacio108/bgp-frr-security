@@ -1,0 +1,69 @@
+frr version 10.6.0
+frr defaults traditional
+hostname rA
+log syslog informational
+no ipv6 forwarding
+service integrated-vtysh-config
+!
+ip prefix-list MITM seq 5 permit 172.16.1.0/29
+ip prefix-list MITM1 seq 5 permit 172.16.1.0/30
+ip prefix-list MITM2 seq 5 permit 172.16.2.0/30
+!
+route-map FORGE_ASPATH permit 10
+ set as-path prepend 64512
+ set local-preference 200
+exit
+!
+route-map MITM1 permit 20
+ description Trafico hacia rJ
+ match ip address prefix-list MITM1
+ set ip next-hop 1.1.1.1
+exit
+!
+route-map MITM2 permit 30
+ description Trafico hacia rK
+ match ip address prefix-list MITM2
+ set ip next-hop 2.2.2.2
+exit
+!
+ip route 172.16.1.0/30 1.1.1.1
+ip route 172.16.1.4/30 2.2.2.2
+!
+interface eth1
+ description NetA
+exit
+!
+interface eth2
+ pbr-policy MITM
+exit
+!
+router eigrp 100
+ network 5.5.5.6/32
+ network 10.1.1.0/28
+ network 10.10.1.0/30
+exit
+!
+router bgp 64515
+ bgp router-id 5.5.5.6
+ bgp confederation identifier 100
+ bgp confederation peers 64512 64513 64514
+ neighbor 1.1.1.1 remote-as 64512
+ neighbor 5.5.5.5 remote-as 64515
+ neighbor 5.5.5.5 update-source lo
+ !
+ address-family ipv4 unicast
+  network 172.16.1.0/30
+  network 172.16.1.4/30
+  redistribute connected
+  no neighbor 1.1.1.1 activate
+  neighbor 1.1.1.1 route-map MITM1 out
+  neighbor 5.5.5.5 route-map FORGE_ASPATH out
+ exit-address-family
+exit
+!
+pbr-map MITM seq 10
+ match dst-ip 172.16.1.0/30
+ set nexthop 1.1.1.1
+exit
+!
+end

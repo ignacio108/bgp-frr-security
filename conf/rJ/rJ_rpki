@@ -6,8 +6,8 @@ ip forwarding
 no ipv6 forwarding
 service integrated-vtysh-config
 !
-ip prefix-list FROM-AS200-PREFIXES seq 5 permit 172.16.1.0/30 le 30
-ip prefix-list FROM-AS200-PREFIXES seq 10 permit 172.16.1.4/30 le 30
+ip prefix-list FROM-AS200-PREFIXES seq 5 permit 172.16.1.0/29 le 29
+ip prefix-list FROM-AS200-PREFIXES seq 10 permit 172.16.2.0/29 le 29
 ip prefix-list OSPF_TO_BGP seq 20 permit 192.168.1.0/24
 !
 route-map SET_MED permit 10
@@ -91,7 +91,7 @@ exit
 !
 rpki
  rpki cache tcp 172.16.1.2 3323 preference 200
- rpki cache tcp 172.16.1.6 3323 preference 190
+ rpki cache tcp 172.16.2.2 3323 preference 190
 exit
 !
 

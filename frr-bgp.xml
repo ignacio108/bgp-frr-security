@@ -60,6 +60,7 @@
     <exec seq="on_boot" type="verbatim" ostype="system">
       sed -i -e 's/eigrpd=.*/eigrpd=yes/' /etc/frr/daemons
       sed -i -e 's/bgpd=.*/bgpd=yes/' /etc/frr/daemons
+      sed -i -e 's/pbrd=.*/pbrd=yes/' /etc/frr/daemons
       sed -i -e 's/zebra_options=.*/zebra_options="  -A 0.0.0.0 -s 90000000"/' /etc/frr/daemons
       sed -i -e 's/bgpd_options=.*/bgpd_options="  -A 127.0.0.1 -M rpki"/' /etc/frr/daemons
       systemctl restart frr
@@ -75,6 +76,10 @@
     </exec>
     <filetree seq="loadra_as_path_forgery" root="/etc/frr/frr.conf" perms="755">conf/rA/rA_AS_Path_Forgery</filetree>
     <exec seq="loadra_as_path_forgery" type="verbatim" ostype="system">
+      systemctl restart frr
+    </exec>
+    <filetree seq="loadra_mitm" root="/etc/frr/frr.conf" perms="755">conf/rA/rA_MiTM</filetree>
+    <exec seq="loadra_mitm" type="verbatim" ostype="system">
       systemctl restart frr
     </exec>
   </vm>
@@ -330,7 +335,7 @@
       <ipv4>192.168.1.17/30</ipv4>
     </if>
     <if id="3" net="NetJ-M">
-      <ipv4>172.16.1.1/30</ipv4>
+      <ipv4>172.16.1.1/29</ipv4>
     </if>
     <if id="8" net="lo">
       <ipv4>1.1.1.1/32</ipv4>
@@ -365,7 +370,7 @@
       <ipv4>192.168.1.18/30</ipv4>
     </if>
     <if id="3" net="NetK-M">
-      <ipv4>172.16.1.5/30</ipv4>
+      <ipv4>172.16.2.1/29</ipv4>
     </if>
     <if id="8" net="lo">
       <ipv4>2.2.2.2/32</ipv4>
@@ -394,10 +399,10 @@
   <vm name="rM" type="lxc" subtype="" os="" exec_mode="lxc-attach" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc</filesystem>
     <if id="1" net="NetJ-M">
-      <ipv4>172.16.1.2/30</ipv4>
+      <ipv4>172.16.1.2/29</ipv4>
     </if>
     <if id="2" net="NetK-M">
-      <ipv4>172.16.1.6/30</ipv4>
+      <ipv4>172.16.2.2/29</ipv4>
     </if>
     <if id="9" net="virbr0">
       <ipv4>dhcp</ipv4>

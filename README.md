@@ -50,23 +50,20 @@ sudo vnx --modify-rootfs filesystems/vnx_rootfs_lxc_ubuntu64-22.04-v025-fw/
 After entering in the virtualized system you will need to install routinator and a frr dependency for rpki
 
 ```bash
-sudo vnx --modify-rootfs filesystems/vnx_rootfs_lxc_ubuntu64-22.04-v025-fw/
 
-sudo apt install \
+apt install -y \
   ca-certificates \
   curl \
   gnupg \
   lsb-release
 
-curl -fsSL https://packages.nlnetlabs.nl/aptkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/nlnetlabs-archive-keyring.gpg
+curl -fsSL https://packages.nlnetlabs.nl/aptkey.asc | gpg --dearmor -o /usr/share/keyrings/nlnetlabs-archive-keyring.gpg
 
-echo \
-"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/debian \
-$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/nlnetlabs.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/nlnetlabs.list
 
-sudo apt update
+apt update
 
-sudo apt install routinator
+apt install -y routinator
 ```
 You must install frr-rpki-rtrlib additional package for RPKI support, otherwise bgpd daemon won’t startup.
 
@@ -86,7 +83,7 @@ halt
 sudo vnx -f frr-bgp.xml -v -t
 ```
 
-In order to initialize the routinator service:
+In order to initialize the routinator service in rM:
 
 ```bash
 nohup routinator -c /root/rpkidata/routinator.conf server > /var/log/routinator.log 2>&1 &
@@ -110,7 +107,7 @@ systemctl restart networking
 And also you can restart the rpki connection with this command in frr in the routers that have an rpki connection: rE, rB, rJ, rG, rK
 
 ```bash
-rpki restart
+rpki reset
 ```
 
 These commands will help you to check everything is working correctly:
@@ -209,12 +206,12 @@ Hosts:
 | hI        | netI         | 10.10.1.5/30    | 10.10.1.4/30                           |
 | rJ        | netE-J       | 192.168.1.10/30 | 192.168.1.8/30                         |
 | rJ        | netJ-K       | 192.168.1.17/30 | 192.168.1.16/30                        |
-| rJ        | netJ-M       | 172.16.1.1/30   | 172.16.1.0/30                          |
+| rJ        | netJ-M       | 172.16.1.1/29   | 172.16.1.0/29                          |
 | rK        | netG-K       | 192.168.1.14/30 | 192.168.1.12/30                        |
 | rK        | netJ-K       | 192.168.1.18/30 | 192.168.1.16/30                        |
-| rK        | netK-M       | 172.16.1.5/30   | 172.16.1.4/30                          |
-| rM        | netJ-M       | 172.16.1.2/30   | 172.16.1.0/30                          |
-| rM        | netK-M       | 172.16.1.6/30   | 172.16.1.4/30                          |
+| rK        | netK-M       | 172.16.2.1/29   | 172.16.2.0/29                          |
+| rM        | netJ-M       | 172.16.1.2/29   | 172.16.1.0/29                          |
+| rM        | netK-M       | 172.16.2.2/29   | 172.16.2.0/29                          |
 
 
 ## Documentation:

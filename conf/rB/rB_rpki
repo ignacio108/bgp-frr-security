@@ -6,8 +6,8 @@ ip forwarding
 no ipv6 forwarding
 service integrated-vtysh-config
 !
-ip prefix-list RPKI-FILTER seq 5 permit 172.16.1.0/30
-ip prefix-list RPKI-FILTER seq 10 permit 172.16.1.4/30
+ip prefix-list RPKI-FILTER seq 5 permit 172.16.1.0/29
+ip prefix-list RPKI-FILTER seq 10 permit 172.16.2.0/29
 !
 route-map RPKI-FILTER deny 10
  match ip address prefix-list RPKI-FILTER
@@ -59,7 +59,7 @@ router bgp 64515
  no bgp ebgp-requires-policy
  bgp cluster-id 5.5.5.5
  bgp confederation identifier 100
- bgp confederation peers 64512 64513 64514 64515
+ bgp confederation peers 64512 64513 64514
  neighbor 1.1.1.1 remote-as 64512
  neighbor 1.1.1.1 ebgp-multihop 3
  neighbor 1.1.1.1 update-source lo
@@ -101,6 +101,6 @@ exit
 !
 rpki
  rpki cache tcp 172.16.1.2 3323 preference 200
- rpki cache tcp 172.16.1.6 3323 preference 190
+ rpki cache tcp 172.16.2.2 3323 preference 190
 exit
 !
