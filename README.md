@@ -236,5 +236,13 @@ https://www.rfc-editor.org/rfc/rfc8205
 https://docs.frrouting.org/en/latest/bgp.html#
 https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189r1.ipd.pdf
 
+NOTAS
 
+
+Si quitas los route-maps te aparecera 
+
+la ruta rpki invalid
+
+
+ 
 

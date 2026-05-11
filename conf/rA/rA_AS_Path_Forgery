@@ -28,7 +28,7 @@ router bgp 64515
  !
  address-family ipv4 unicast
   network 172.16.1.0/29
-  network 172.16.1.4/29
+  network 172.16.2.0/29
   redistribute connected
   neighbor 5.5.5.5 route-map FORGE_ASPATH out
  exit-address-family
@@ -36,7 +36,7 @@ exit
 !
 route-map FORGE_ASPATH permit 10
  set as-path prepend 200
- set local-preference 100
+ set local-preference 200
 exit
 !
 end

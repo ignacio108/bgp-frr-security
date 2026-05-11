@@ -6,20 +6,11 @@ ip forwarding
 no ipv6 forwarding
 service integrated-vtysh-config
 !
-ip prefix-list RPKI-FILTER seq 5 permit 172.16.1.0/29
-ip prefix-list RPKI-FILTER seq 10 permit 172.16.2.0/29
-!
 route-map RPKI-FILTER deny 10
- match ip address prefix-list RPKI-FILTER
  match rpki invalid
 exit
 !
 route-map RPKI-FILTER permit 20
- match ip address prefix-list RPKI-FILTER
- match rpki valid
-exit
-!
-route-map RPKI-FILTER permit 30
 exit
 !
 key chain 1
