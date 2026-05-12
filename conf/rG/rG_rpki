@@ -11,6 +11,7 @@ route-map RPKI-FILTER deny 10
 exit
 !
 route-map RPKI-FILTER permit 20
+ match local-preference 100
 exit
 !
 key chain 1
