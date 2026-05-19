@@ -2,12 +2,30 @@ frr version 10.6.0
 frr defaults traditional
 hostname rJ
 log syslog informational
+ip forwarding
 no ipv6 forwarding
 service integrated-vtysh-config
 !
+ip prefix-list EIGRP_TO_BGP seq 10 permit 10.1.1.0/28
+ip prefix-list CONNECTED_NET seq 10 permit 10.1.2.1/30
+ip prefix-list CONNECTED_NET seq 20 permit 172.16.1.0/29
+ip prefix-list CONNECTED_NET seq 30 permit 172.16.2.0/29
 ip prefix-list OSPF_TO_BGP seq 10 permit 192.168.1.0/24
+ip prefix-list OSPF_TO_BGP seq 20 permit 10.1.3.0/29
+!
+route-map CONNECTED_NET permit 10
+ match ip address prefix-list CONNECTED_NET
+ set community 100:10
+ set metric 20
+exit
 !
 route-map OSPF_TO_BGP permit 10
+ match ip address prefix-list OSPF_TO_BGP
+ set community 100:10
+ set metric 20
+exit
+!
+route-map EIGRP_TO_BGP permit 10
  match ip address prefix-list OSPF_TO_BGP
  set community 100:10
  set metric 20
@@ -62,8 +80,9 @@ router bgp 64512
  neighbor 172.16.1.2 remote-as 200
  !
  address-family ipv4 unicast
-  redistribute connected
+  redistribute connected route-map CONNECTED_NET
   redistribute ospf route-map OSPF_TO_BGP
+  redistribute eigrp route-map EIGRP_TO_BGP
   neighbor 2.2.2.2 next-hop-self
   neighbor 172.16.1.2 soft-reconfiguration inbound
   neighbor 172.16.1.2 route-map SET_MED out

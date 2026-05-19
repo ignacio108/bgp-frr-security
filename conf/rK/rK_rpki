@@ -6,22 +6,39 @@ ip forwarding
 no ipv6 forwarding
 service integrated-vtysh-config
 !
+ip prefix-list EIGRP_TO_BGP seq 10 permit 10.1.1.0/28
+ip prefix-list CONNECTED_NET seq 10 permit 10.1.2.1/30
+ip prefix-list CONNECTED_NET seq 20 permit 172.16.1.0/29
+ip prefix-list CONNECTED_NET seq 30 permit 172.16.2.0/29
 ip prefix-list FROM-AS200-PREFIXES seq 5 permit 172.16.1.0/29 le 29
 ip prefix-list FROM-AS200-PREFIXES seq 10 permit 172.16.2.0/29 le 29
-ip prefix-list OSPF_TO_BGP seq 20 permit 192.168.1.0/24
-!
-route-map SET_MED permit 10
- set metric 20
-exit
+ip prefix-list OSPF_TO_BGP seq 10 permit 192.168.1.0/24
+ip prefix-list OSPF_TO_BGP seq 20 permit 10.1.3.0/29
 !
 route-map ADD-AS200 permit 10
  match ip address prefix-list FROM-AS200-PREFIXES
  set as-path prepend 200
 exit
 !
+route-map CONNECTED_NET permit 10
+ match ip address prefix-list CONNECTED_NET
+ set community 100:20
+ set metric 20
+exit
+!
 route-map OSPF_TO_BGP permit 10
  match ip address prefix-list OSPF_TO_BGP
  set community 100:20
+ set metric 20
+exit
+!
+route-map EIGRP_TO_BGP permit 10
+ match ip address prefix-list OSPF_TO_BGP
+ set community 100:20
+ set metric 20
+exit
+!
+route-map SET_MED permit 10
  set metric 20
 exit
 !
